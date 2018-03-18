@@ -1,0 +1,95 @@
+<html>
+	<head>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	
+	<title>Controle de Sistemas</title>
+	
+	<link href='./css/style.css' rel="stylesheet" type="text/css" />
+	<link href='./css/css/font-awesome.css' rel="stylesheet" type="text/css" />
+	<link href='./css/bootstrap.css' rel="stylesheet" type="text/css" />
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+</head>
+
+<body>
+	<div class="container" id="sistemasApp" ng-controller="sistemaController">
+		
+		<center><h2>Controle de Sistemas</h2></center>
+		
+		<div>
+			<hr></hr>
+			
+			<h3>Manter Sistema</h3>
+			
+			<div class="col-sm-12">	
+				<h5>Dados do Sistema</h5>
+				
+				<form>
+					<div class="form-group">
+						<label for="descricao">Descri&ccedil;&atilde;o: </label>
+						<input type="text" id="descricao" ng-model="sistema.descricao"/>
+					</div>
+					<div class="form-group">
+						<label for="sigla">Sigla: </label>
+						<input type="text" id="sigla" ng-model="sistema.sigla"/>
+					</div>
+					<div class="form-group">
+						<label for="email">E-mail de atendimento do sistema: </label>
+						<input type="email" id="email" ng-model="sistema.email"/>
+					</div>
+					<div class="form-group">
+						<label for="url">URL: </label>
+						<input type="text" id="url" ng-model="sistema.url"/>
+					</div>
+					
+					<h5>Controle do Sistema</h5>
+					
+					<div class="form-group">
+						<label for="status">Status: </label>
+						<select id="status" ng-model="sistema.status">
+							<option value="ATIVO">ATIVO</option>
+							<option value="CANCELADO">CANCELADO</option>
+						</select>
+					</div>
+					
+					<div class="form-group">
+						<label for="usuario">Usu&aacute;rio respons&aacute;vel: </label>
+						<input type="text" id="usuario" ng-model="sistema.usuario"/>
+					</div>
+					
+					<div class="form-group">
+						<label for="updatedAt">Data da &uacute;ltima altera&ccedil;&atilde;o: </label>
+						<input type="text" id="updatedAt" value="{{sistema.updatedAt | date : 'dd-MM-yyyy HH:mm:ss'}}" disabled="disabled"/>
+					</div>
+					
+					<div class="form-group">
+						<label for="ultimaAlteracao">Justificativa da &Uacute;ltima altera&ccedil;&atilde;o: </label>
+						<input type="text" id="ultimaAlteracao" ng-model="sistema.ultimaAlteracao" disabled="disabled"/>
+					</div>
+					
+					<div class="form-group">
+						<label for="novaAlteracao">Nova justificativa de altera&ccedil;&atilde;o: </label>
+						<input type="text" id="novaAlteracao" ng-model="sistema.novaAlteracao"/>
+					</div>
+					
+					<button class="btn btn-success" type="button" ng-click="atualizar(sistema.sigla)">Salvar</button>
+					<button class="btn btn-warning" type="button" onclick="window.location.href='pesquisa'">Voltar</button>
+				</form>
+			</div>
+			
+			<hr></hr>
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="./js/lib/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="./js/lib/bootstrap.min.js"></script>
+	<script type="text/javascript" src="./js/lib/angular.min.js"></script>
+<!-- 	<script type="text/javascript" src="./js/lib/angular-animate.js"></script> -->
+<!-- 	<script type="text/javascript" src="./js/lib/ui-bootstrap-tpls-2.5.0.min.js"></script> -->
+	<script type="text/javascript" src="./js/lib/angular-resource.js"></script>
+	<script type="text/javascript" src="./js/lib/angular-route.js"></script>
+	<script type="text/javascript" src="./js/lib/angular-sanitize.js"></script>
+	<script type="text/javascript" src="./js/app/sistema.service.js"></script>
+	<script type="text/javascript" src="./js/app/sistema.controller.js"></script>
+</body>
+</html>

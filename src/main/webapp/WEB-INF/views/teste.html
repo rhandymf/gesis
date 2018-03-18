@@ -1,0 +1,156 @@
+<html ng-app="controleSistemaApp">
+	<head>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	
+	<title>Controle de Sistemas</title>
+	
+	<link href='./css/style.css' rel="stylesheet" type="text/css" />
+	<link href='./css/css/font-awesome.css' rel="stylesheet" type="text/css" />
+	<link href='./css/bootstrap.css' rel="stylesheet" type="text/css" />
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+</head>
+
+<body>
+	<div class="container" ng-controller="controleSistemaController">
+		
+		<center><h2>Controle de Sistemas</h2></center>
+		
+		<div id="sistema-panel" ng-show="alterar">
+			<hr></hr>
+			
+			<div class="col-sm-12">	
+				<h3>Pesquisar Sistema</h3>
+				<h5>Filtro de consulta</h5>
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Sigla</th>
+							<th scope="col">Descri&ccedil;&atilde;o</th>
+							<th scope="col">E-mail de atendimento do sistema</th>
+							<th></th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr>
+							<td><input type="text" ng-model="siglaPesquisa"/></td>
+							<td><input type="text" ng-model="descricaoPesquisa"/></td>
+							<td><input type="text" ng-model="emailPesquisa"/></td>
+							<td>
+								<button type="button" class="btn btn-info">Pesquisar</button><br></br>
+								<button type="button" class="btn btn-light" ng-click="limparPesquisa()">Limpar Pesquisa</button><br></br>
+								<button class="btn btn-primary" ng-click="alterar = !alterar; editar = false">Novo Sistema</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<hr></hr>
+			
+			<div class="col-sm-12">
+				<center>
+					<h3>Resultado da consulta</h3>
+				</center>
+				
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Sigla</th>
+							<th scope="col">Descri&ccedil;&atilde;o</th>
+							<th scope="col">E-mail</th>
+							<th scope="col">URL</th>
+							<th scope="col">Status</th>
+							<th scope="col">A&ccedil;&otilde;es </th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="s in sistemas | filter : {descricao : descricaoPesquisa, sigla : siglaPesquisa, email : emailPesquisa} | orderBy : sigla">
+							<td scope="row">{{s.sigla}}</td>
+							<td>{{s.descricao}}</td>
+							<td>{{s.email}}</td>
+							<td>{{s.url}}</td>
+							<td>{{s.status}} <button class="btn btn-warning" ng-click="alterarStatus(s)">Alterar Status</button></td>
+							<td><button class="btn btn-dark" ng-click="editarSistema(s)">Editar Sistema</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		<div id="add-sistema-panel" ng-hide="alterar">
+			<div>
+				<div>
+					<i class="fa fa-plus" ng-show="!editar"></i>&nbsp;<span>Adicionar Sistema</span>
+					<span ng-show="editar">Editar Sistema</span>
+				</div>
+				
+				<div>
+					<button class="btn btn-info" ng-click="alterar = !alterar">Mostrar Todos</button>
+				</div>
+			</div>
+			
+			<div>
+				<div>
+					<table class="table">
+						<tr>
+							<td>Descri&ccedil;&atilde;o:</td>
+							<td><input type="text" ng-model="descricao" maxlength="100" required="required"/></td>
+						</tr>
+						<tr>
+							<td>Sigla:</td>
+							<td><input type="text" ng-model="sigla" maxlength="10" required="required"/></td>
+						</tr>
+						<tr>
+							<td>E-mail:</td>
+							<td><input type="email" ng-model="email" maxlength="100"/></td>
+						</tr>
+						<tr>
+							<td>URL:</td>
+							<td><input type="text" ng-model="url" maxlength="100"/></td>
+						</tr>
+						<tr ng-show="editar">
+							<td>Data da &uacute;ltima altera&ccedil;&atilde;o:</td>
+							<td>{{dataUltimaAlteracao | date : 'dd-MM-yyyy'}}</td>
+						</tr>
+						<tr>
+							<td>Justificativa &uacute;ltima da altera&ccedil;&atilde;o:</td>
+							<td>{{ultimaAlteracao}}</td>
+						</tr>
+						<tr ng-show="editar">
+							<td>Justificativa da altera&ccedil;&atilde;o:</td>
+							<td><textarea ng-model="novaAlteracao" maxlength="500"/></td>
+						</tr>
+						<tr>
+							<td>Status:</td>
+							<td>
+								<select ng-model="status" ng-options="status as status for status in statusLista">
+									<option value="">-- Selecionar --</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<br />
+								<button class="btn btn-success" ng-click="addSistema()" ng-show="!editar">Adicionar</button>
+							</td>
+							<td>
+								<button class="btn btn-success" ng-click="addSistema()" ng-show="editar">Enviar altera&ccedil;&otilde;es</button>
+								<button class="btn btn-warning" ng-click="cancelarEdicao()" ng-show="editar">Cancelar</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="./js/lib/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="./js/lib/bootstrap.min.js"></script>
+	<script type="text/javascript" src="./js/lib/angular.min.js"></script>
+	<script type="text/javascript" src="./js/lib/angular-animate.js"></script>
+	<script type="text/javascript" src="./js/lib/ui-bootstrap-tpls-2.5.0.min.js"></script>
+	<script type="text/javascript" src="./js/app/app.js"></script>
+</body>
+</html>
